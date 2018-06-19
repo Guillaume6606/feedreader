@@ -76,7 +76,7 @@ $(function() {
          * there is at least a single .entry element within the .feed container.
          */
          it('should be properly loaded', function(done){
-           expect($('.feed').length).toBeGreaterThan(0);
+           expect($('.feed .entry').length).toBeGreaterThan(0);
            done();
          });
 
@@ -85,10 +85,15 @@ $(function() {
     describe('New Feed Selection', function() {
       let oldFeed, newFeed;
       beforeEach(function(done){
+        // Saves the content of the original feed (0) to a variable
         oldFeed = $('.feed').children().html();
+        // Randomly selects a feed to load by counting the feeds and choosing one.
         let feeds = $('.feed-list').find('a');
         let id = 1 + Math.floor(Math.random()*(feeds.length - 1));
+        // Loading the new feed to the screen
         loadFeed(id,function(){
+          // Storing the new feed in a variable.
+          newFeed = $('.feed').children().html();
           done();
         });
       });
@@ -96,9 +101,8 @@ $(function() {
          * the content actually changes.
          */
          it('should trigger a change in the content', function(done) {
-          newFeed = $('.feed').children().html();
-          /* Compares the two first elements of the content. If they are
-           * different, the content has necessarily changed.
+          /* Compares the two selected feeds' html to determine whether they're
+           * different.
            */
           expect(newFeed).not.toEqual(oldFeed);
           done();
